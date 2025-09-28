@@ -1,0 +1,318 @@
+# CARE Demo Platform - GitHub Project Configuration
+# This file defines the project structure, views, and automation for the CARE demo platform
+
+name: "CARE Demo Platform Development"
+description: "Community Acceptance Research and Evaluation (CARE) Demo Platform - A comprehensive web platform for analyzing and simulating community acceptance of policy interventions"
+
+# Project Settings
+settings:
+  public: true
+  readme: true
+  template: false
+
+# Project Views
+views:
+  - name: "📋 Milestone Overview"
+    description: "High-level view of all milestones and their progress"
+    layout: "board"
+    group_by: "milestone"
+    sort_by: "priority"
+    filter: "is:open"
+    
+  - name: "🚀 Milestone 0: Foundation"
+    description: "Project foundation and DevOps setup"
+    layout: "board"
+    group_by: "status"
+    sort_by: "priority"
+    filter: "milestone:0 is:open"
+    
+  - name: "⚡ Milestone 1: MVP Core"
+    description: "Core simulation and visualization functionality"
+    layout: "board"
+    group_by: "status"
+    sort_by: "priority"
+    filter: "milestone:1 is:open"
+    
+  - name: "🔧 Milestone 2: Feature Expansion"
+    description: "User features and geographic selection"
+    layout: "board"
+    group_by: "status"
+    sort_by: "priority"
+    filter: "milestone:2 is:open"
+    
+  - name: "📊 Milestone 3: Complete Flow"
+    description: "User feedback and reporting"
+    layout: "board"
+    group_by: "status"
+    sort_by: "priority"
+    filter: "milestone:3 is:open"
+    
+  - name: "✨ Milestone 4: Polish"
+    description: "Security, accessibility, and production readiness"
+    layout: "board"
+    group_by: "status"
+    sort_by: "priority"
+    filter: "milestone:4 is:open"
+    
+  - name: "🔥 High Priority Issues"
+    description: "All high priority issues across milestones"
+    layout: "table"
+    group_by: "none"
+    sort_by: "created"
+    filter: "label:priority:high is:open"
+    
+  - name: "👥 Assignee View"
+    description: "Issues organized by assignee"
+    layout: "board"
+    group_by: "assignee"
+    sort_by: "priority"
+    filter: "is:open"
+    
+  - name: "🏷️ By Labels"
+    description: "Issues organized by labels"
+    layout: "board"
+    group_by: "labels"
+    sort_by: "priority"
+    filter: "is:open"
+
+# Project Fields
+fields:
+  - name: "Priority"
+    type: "single_select"
+    options:
+      - name: "🔴 Critical"
+        description: "Blocking other work or critical path"
+      - name: "🟠 High"
+        description: "Important for milestone completion"
+      - name: "🟡 Medium"
+        description: "Important but not blocking"
+      - name: "🟢 Low"
+        description: "Nice to have"
+    required: true
+    
+  - name: "Effort"
+    type: "number"
+    description: "Estimated hours of work"
+    required: false
+    
+  - name: "Milestone"
+    type: "single_select"
+    options:
+      - name: "0 - Foundation"
+        description: "Project foundation and DevOps"
+      - name: "1 - MVP Core"
+        description: "Core simulation functionality"
+      - name: "2 - Feature Expansion"
+        description: "User features and geographic selection"
+      - name: "3 - Complete Flow"
+        description: "User feedback and reporting"
+      - name: "4 - Polish"
+        description: "Security, accessibility, and production"
+    required: true
+    
+  - name: "Status"
+    type: "single_select"
+    options:
+      - name: "📋 Backlog"
+        description: "Not started"
+      - name: "🔄 In Progress"
+        description: "Currently being worked on"
+      - name: "👀 Review"
+        description: "Ready for review"
+      - name: "✅ Done"
+        description: "Completed"
+      - name: "⏸️ Blocked"
+        description: "Blocked by dependencies"
+    required: true
+    
+  - name: "Type"
+    type: "single_select"
+    options:
+      - name: "🏗️ Infrastructure"
+        description: "DevOps, CI/CD, deployment"
+      - name: "⚙️ Backend"
+        description: "API, database, business logic"
+      - name: "🎨 Frontend"
+        description: "UI components, user experience"
+      - name: "🧪 Testing"
+        description: "Unit, integration, e2e tests"
+      - name: "📚 Documentation"
+        description: "User guides, technical docs"
+      - name: "🔒 Security"
+        description: "Security, accessibility, compliance"
+    required: true
+
+# Automation Rules
+automation:
+  - name: "Auto-assign milestone based on issue number"
+    trigger: "issue_opened"
+    action: "set_field"
+    field: "Milestone"
+    value: |
+      {% if issue.number <= 4 %}0 - Foundation
+      {% elif issue.number <= 8 %}1 - MVP Core
+      {% elif issue.number <= 12 %}2 - Feature Expansion
+      {% elif issue.number <= 16 %}3 - Complete Flow
+      {% else %}4 - Polish{% endif %}
+      
+  - name: "Auto-assign priority based on issue number"
+    trigger: "issue_opened"
+    action: "set_field"
+    field: "Priority"
+    value: |
+      {% if issue.number in [1, 2, 3, 4, 5, 6, 9, 10, 13, 17, 19, 20] %}🟠 High
+      {% elif issue.number in [7, 11, 12, 15, 16] %}🟡 Medium
+      {% else %}🟢 Low{% endif %}
+      
+  - name: "Auto-assign type based on labels"
+    trigger: "issue_labeled"
+    action: "set_field"
+    field: "Type"
+    value: |
+      {% if 'infrastructure' in issue.labels %}🏗️ Infrastructure
+      {% elif 'backend' in issue.labels %}⚙️ Backend
+      {% elif 'frontend' in issue.labels %}🎨 Frontend
+      {% elif 'testing' in issue.labels %}🧪 Testing
+      {% elif 'documentation' in issue.labels %}📚 Documentation
+      {% elif 'security' in issue.labels %}🔒 Security
+      {% else %}⚙️ Backend{% endif %}
+      
+  - name: "Move to In Progress when assigned"
+    trigger: "issue_assigned"
+    action: "set_field"
+    field: "Status"
+    value: "🔄 In Progress"
+    
+  - name: "Move to Review when PR created"
+    trigger: "pull_request_opened"
+    action: "set_field"
+    field: "Status"
+    value: "👀 Review"
+    
+  - name: "Move to Done when PR merged"
+    trigger: "pull_request_merged"
+    action: "set_field"
+    field: "Status"
+    value: "✅ Done"
+
+# Project Workflows
+workflows:
+  - name: "New Issue Workflow"
+    description: "Automated workflow for new issues"
+    triggers:
+      - issue_opened
+    steps:
+      - name: "Auto-assign fields"
+        action: "set_fields"
+        fields:
+          Priority: "🟡 Medium"
+          Status: "📋 Backlog"
+          Type: "⚙️ Backend"
+          
+  - name: "Development Workflow"
+    description: "Standard development workflow"
+    triggers:
+      - issue_assigned
+    steps:
+      - name: "Move to In Progress"
+        action: "set_field"
+        field: "Status"
+        value: "🔄 In Progress"
+        
+  - name: "Review Workflow"
+    description: "Code review workflow"
+    triggers:
+      - pull_request_opened
+    steps:
+      - name: "Move to Review"
+        action: "set_field"
+        field: "Status"
+        value: "👀 Review"
+        
+  - name: "Completion Workflow"
+    description: "Issue completion workflow"
+    triggers:
+      - pull_request_merged
+    steps:
+      - name: "Move to Done"
+        action: "set_field"
+        field: "Status"
+        value: "✅ Done"
+
+# Project Templates
+templates:
+  - name: "Bug Report"
+    description: "Template for reporting bugs"
+    body: |
+      ## Bug Description
+      A clear and concise description of what the bug is.
+      
+      ## Steps to Reproduce
+      1. Go to '...'
+      2. Click on '....'
+      3. Scroll down to '....'
+      4. See error
+      
+      ## Expected Behavior
+      A clear and concise description of what you expected to happen.
+      
+      ## Actual Behavior
+      A clear and concise description of what actually happened.
+      
+      ## Screenshots
+      If applicable, add screenshots to help explain your problem.
+      
+      ## Environment
+      - OS: [e.g. macOS, Windows, Linux]
+      - Browser: [e.g. Chrome, Firefox, Safari]
+      - Version: [e.g. 1.0.0]
+      
+      ## Additional Context
+      Add any other context about the problem here.
+      
+  - name: "Feature Request"
+    description: "Template for requesting new features"
+    body: |
+      ## Feature Description
+      A clear and concise description of the feature you'd like to see implemented.
+      
+      ## Problem Statement
+      Is your feature request related to a problem? Please describe.
+      A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+      
+      ## Proposed Solution
+      Describe the solution you'd like to see implemented.
+      
+      ## Alternatives Considered
+      Describe any alternative solutions or features you've considered.
+      
+      ## Additional Context
+      Add any other context or screenshots about the feature request here.
+      
+  - name: "Task"
+    description: "Template for development tasks"
+    body: |
+      ## Task Description
+      A clear and concise description of the task to be completed.
+      
+      ## Acceptance Criteria
+      - [ ] Criterion 1
+      - [ ] Criterion 2
+      - [ ] Criterion 3
+      
+      ## Technical Requirements
+      - Requirement 1
+      - Requirement 2
+      - Requirement 3
+      
+      ## Implementation Details
+      Describe the implementation approach and any technical considerations.
+      
+      ## Definition of Done
+      - [ ] Code is implemented and tested
+      - [ ] Documentation is updated
+      - [ ] Tests are written and passing
+      - [ ] Code review is completed
+      
+      ## Additional Context
+      Add any other context about the task here.

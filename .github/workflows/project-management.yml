@@ -1,0 +1,113 @@
+name: Project Management Automation
+
+on:
+  issues:
+    types: [opened, labeled, assigned, closed]
+  pull_request:
+    types: [opened, closed, merged]
+  project_card:
+    types: [created, moved, converted]
+
+jobs:
+  update-project-fields:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'issues'
+    steps:
+      - name: Auto-assign milestone based on issue number
+        if: github.event.action == 'opened'
+        run: |
+          ISSUE_NUMBER=${{ github.event.issue.number }}
+          if [ $ISSUE_NUMBER -le 4 ]; then
+            MILESTONE="0 - Foundation"
+          elif [ $ISSUE_NUMBER -le 8 ]; then
+            MILESTONE="1 - MVP Core"
+          elif [ $ISSUE_NUMBER -le 12 ]; then
+            MILESTONE="2 - Feature Expansion"
+          elif [ $ISSUE_NUMBER -le 16 ]; then
+            MILESTONE="3 - Complete Flow"
+          else
+            MILESTONE="4 - Polish"
+          fi
+          echo "MILESTONE=$MILESTONE" >> $GITHUB_ENV
+          
+      - name: Auto-assign priority based on issue number
+        if: github.event.action == 'opened'
+        run: |
+          ISSUE_NUMBER=${{ github.event.issue.number }}
+          if [[ $ISSUE_NUMBER =~ ^(1|2|3|4|5|6|9|10|13|17|19|20)$ ]]; then
+            PRIORITY="🟠 High"
+          elif [[ $ISSUE_NUMBER =~ ^(7|11|12|15|16)$ ]]; then
+            PRIORITY="🟡 Medium"
+          else
+            PRIORITY="🟢 Low"
+          fi
+          echo "PRIORITY=$PRIORITY" >> $GITHUB_ENV
+          
+      - name: Auto-assign type based on labels
+        if: github.event.action == 'labeled'
+        run: |
+          LABELS="${{ join(github.event.issue.labels.*.name, ' ') }}"
+          if [[ $LABELS == *"infrastructure"* ]]; then
+            TYPE="🏗️ Infrastructure"
+          elif [[ $LABELS == *"backend"* ]]; then
+            TYPE="⚙️ Backend"
+          elif [[ $LABELS == *"frontend"* ]]; then
+            TYPE="🎨 Frontend"
+          elif [[ $LABELS == *"testing"* ]]; then
+            TYPE="🧪 Testing"
+          elif [[ $LABELS == *"documentation"* ]]; then
+            TYPE="📚 Documentation"
+          elif [[ $LABELS == *"security"* ]]; then
+            TYPE="🔒 Security"
+          else
+            TYPE="⚙️ Backend"
+          fi
+          echo "TYPE=$TYPE" >> $GITHUB_ENV
+
+  update-status-on-assignment:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'issues' && github.event.action == 'assigned'
+    steps:
+      - name: Move to In Progress when assigned
+        run: |
+          echo "STATUS=🔄 In Progress" >> $GITHUB_ENV
+
+  update-status-on-pr:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Move to Review when PR created
+        if: github.event.action == 'opened'
+        run: |
+          echo "STATUS=👀 Review" >> $GITHUB_ENV
+          
+      - name: Move to Done when PR merged
+        if: github.event.action == 'closed' && github.event.pull_request.merged == true
+        run: |
+          echo "STATUS=✅ Done" >> $GITHUB_ENV
+
+  notify-team:
+    runs-on: ubuntu-latest
+    if: |
+      (github.event_name == 'issues' && github.event.action == 'opened' && 
+       contains(github.event.issue.labels.*.name, 'priority:high')) ||
+      (github.event_name == 'pull_request' && github.event.action == 'opened')
+    steps:
+      - name: Notify team of high priority issue
+        if: github.event_name == 'issues' && contains(github.event.issue.labels.*.name, 'priority:high')
+        run: |
+          echo "High priority issue #${{ github.event.issue.number }} created: ${{ github.event.issue.title }}"
+          
+      - name: Notify team of new PR
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "New PR #${{ github.event.pull_request.number }} created: ${{ github.event.pull_request.title }}"
+
+  update-project-metrics:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'issues' && github.event.action == 'closed'
+    steps:
+      - name: Update completion metrics
+        run: |
+          echo "Issue #${{ github.event.issue.number }} completed"
+          # Add logic to update project metrics or dashboard
