@@ -47,7 +47,18 @@ check_gh_auth() {
         print_error "Not authenticated with GitHub. Please run: gh auth login"
         exit 1
     fi
+    
+    # Check if token has required scopes
+    if ! gh auth status | grep -q "project\|read:project"; then
+        print_warning "GitHub token missing required scopes for project management"
+        print_warning "Please run: gh auth refresh -s project,read:project"
+        print_warning "Or create the project manually through GitHub UI"
+        print_warning "Continuing with issue import only..."
+        return 1
+    fi
+    
     print_success "GitHub authentication verified"
+    return 0
 }
 
 # Create GitHub project
@@ -58,7 +69,7 @@ create_project() {
     PROJECT_DESCRIPTION="Community Acceptance Research and Evaluation (CARE) Demo Platform - A comprehensive web platform for analyzing and simulating community acceptance of policy interventions"
     
     # Create the project
-    PROJECT_ID=$(gh project create --title "$PROJECT_TITLE" --body "$PROJECT_DESCRIPTION" --public --format json | jq -r '.id')
+    PROJECT_ID=$(gh project create --title "$PROJECT_TITLE" --owner "@me" --format json | jq -r '.id')
     
     if [ "$PROJECT_ID" != "null" ] && [ "$PROJECT_ID" != "" ]; then
         print_success "Project created with ID: $PROJECT_ID"
@@ -89,12 +100,10 @@ import_issues() {
             if [ -n "$issue_number" ] && [ -n "$title" ]; then
                 print_status "Creating issue #$issue_number: $title"
                 
-                # Create issue with proper labels
+                # Create issue without labels (labels can be added later)
                 gh issue create \
                     --title "$title" \
-                    --body-file "$file" \
-                    --label "task,priority:medium" \
-                    --assignee "@me" || print_warning "Failed to create issue #$issue_number"
+                    --body-file "$file" || print_warning "Failed to create issue #$issue_number"
                 
                 ((count++))
             fi
@@ -167,10 +176,14 @@ main() {
     
     # Check prerequisites
     check_gh_cli
-    check_gh_auth
     
-    # Create project
-    create_project
+    # Check authentication and create project if possible
+    if check_gh_auth; then
+        create_project
+    else
+        print_warning "Skipping project creation due to missing scopes"
+        print_warning "You can create the project manually at: https://github.com/users/$(gh api user --jq .login)/projects/new"
+    fi
     
     # Import issues
     import_issues
