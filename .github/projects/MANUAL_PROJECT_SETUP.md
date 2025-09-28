@@ -144,7 +144,7 @@ PROJECT_ID=[your-project-id]
 
 ### 3. Milestone 1: MVP Core View
 
-1. Click **+ Add view** → \*\*Board`
+1. Click **+ Add view** → **Board**
 2. Configure:
    - **Name**: `⚡ Milestone 1: MVP Core`
    - **Description**: `Core simulation and visualization functionality`
@@ -154,7 +154,7 @@ PROJECT_ID=[your-project-id]
 
 ### 4. Milestone 2: Feature Expansion View
 
-1. Click **+ Add view** → \*\*Board`
+1. Click **+ Add view** → **Board**
 2. Configure:
    - **Name**: `🔧 Milestone 2: Feature Expansion`
    - **Description**: `User features and geographic selection`
@@ -164,7 +164,7 @@ PROJECT_ID=[your-project-id]
 
 ### 5. Milestone 3: Complete Flow View
 
-1. Click **+ Add view** → \*\*Board`
+1. Click **+ Add view** → **Board**
 2. Configure:
    - **Name**: `📊 Milestone 3: Complete Flow`
    - **Description**: `User feedback and reporting`
@@ -174,7 +174,7 @@ PROJECT_ID=[your-project-id]
 
 ### 6. Milestone 4: Polish View
 
-1. Click **+ Add view** → \*\*Board`
+1. Click **+ Add view** → **Board**
 2. Configure:
    - **Name**: `✨ Milestone 4: Polish`
    - **Description**: `Security, accessibility, and production readiness`
@@ -184,7 +184,7 @@ PROJECT_ID=[your-project-id]
 
 ### 7. High Priority Issues View
 
-1. Click **+ Add view** → \*\*Table`
+1. Click **+ Add view** → **Table**
 2. Configure:
    - **Name**: `🔥 High Priority Issues`
    - **Description**: `All high priority issues across milestones`
@@ -194,7 +194,7 @@ PROJECT_ID=[your-project-id]
 
 ### 8. Assignee View
 
-1. Click **+ Add view** → \*\*Board`
+1. Click **+ Add view** → **Board**
 2. Configure:
    - **Name**: `👥 Assignee View`
    - **Description**: `Issues organized by assignee`
@@ -204,7 +204,7 @@ PROJECT_ID=[your-project-id]
 
 ### 9. By Labels View
 
-1. Click **+ Add view** → \*\*Board`
+1. Click **+ Add view** → **Board**
 2. Configure:
    - **Name**: `🏷️ By Labels`
    - **Description**: `Issues organized by labels`
@@ -243,7 +243,7 @@ PROJECT_ID=[your-project-id]
 
 ### Auto-assign Type Rule
 
-1. Click \*\*Add rule`
+1. Click **Add rule**
 2. Configure:
    - **Trigger**: `Issue labeled`
    - **Action**: `Set field`
@@ -260,7 +260,7 @@ PROJECT_ID=[your-project-id]
 
 #### Move to In Progress
 
-1. Click \*\*Add rule`
+1. Click **Add rule**
 2. Configure:
    - **Trigger**: `Issue assigned`
    - **Action**: `Set field`
@@ -269,7 +269,7 @@ PROJECT_ID=[your-project-id]
 
 #### Move to Review
 
-1. Click \*\*Add rule`
+1. Click **Add rule**
 2. Configure:
    - **Trigger**: `Pull request opened`
    - **Action**: `Set field`
@@ -278,7 +278,7 @@ PROJECT_ID=[your-project-id]
 
 #### Move to Done
 
-1. Click \*\*Add rule`
+1. Click **Add rule**
 2. Configure:
    - **Trigger**: `Pull request merged`
    - **Action**: `Set field`
