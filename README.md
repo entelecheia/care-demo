@@ -81,23 +81,27 @@ The platform follows a **decoupled monolith** architecture with four core module
 The CARE demo platform uses GitHub Projects for comprehensive project management:
 
 ### 🚀 Quick Setup
+
 ```bash
 # Run the automated setup script
 ./.github/scripts/setup-project.sh
 ```
 
 ### 📊 Project Views
+
 - **Milestone Overview**: High-level progress tracking
 - **Milestone-specific Views**: Detailed progress by development phase
 - **Priority Views**: High-priority issues and assignee tracking
 - **Label-based Views**: Issues organized by type and category
 
 ### 🤖 Automation
+
 - **Auto-assignment**: Milestone, priority, and type based on issue number
 - **Status Updates**: Automatic status changes based on assignee and PR events
 - **Notifications**: Team notifications for high-priority issues
 
 ### 📝 Issue Templates
+
 - **Bug Reports**: Standardized bug reporting
 - **Feature Requests**: Structured feature proposals
 - **Development Tasks**: Detailed task specifications

@@ -1,9 +1,11 @@
 # Issue #006: Core Frontend Components and UI Framework
 
 ## Description
+
 Implement the core React components for the CARE demo platform, including data visualization components, forms, and layout structure.
 
 ## Acceptance Criteria
+
 - [ ] Create reusable UI component library
 - [ ] Implement radar chart component for concern visualization
 - [ ] Build interactive map component for region selection
@@ -13,6 +15,7 @@ Implement the core React components for the CARE demo platform, including data v
 - [ ] Create accessibility-compliant components
 
 ## Technical Requirements
+
 - **Framework**: React 18+ with TypeScript
 - **Styling**: Tailwind CSS or styled-components
 - **Charts**: Chart.js or D3.js for radar charts
@@ -23,30 +26,35 @@ Implement the core React components for the CARE demo platform, including data v
 ## Core Components to Implement
 
 ### Layout Components
+
 - **Header**: Navigation and user info
 - **Sidebar**: Navigation menu
 - **MainLayout**: Page wrapper with responsive design
 - **Footer**: Platform information
 
 ### Data Visualization
+
 - **RadarChart**: 5-axis concern visualization
 - **CAIGauge**: Community Acceptance Index display
 - **ComparisonChart**: Before/after policy comparison
 - **SlopeGraph**: Change visualization between time periods
 
 ### Interactive Components
+
 - **RegionSelector**: Map-based area selection
 - **PolicyForm**: Policy intervention configuration
 - **FeedbackCards**: Community opinion display
 - **EvaluationForm**: User assessment input
 
 ### Utility Components
+
 - **LoadingSpinner**: Async operation indicators
 - **ErrorBoundary**: Error handling wrapper
 - **Modal**: Reusable modal dialogs
 - **Tooltip**: Information overlays
 
 ## Implementation Details
+
 1. Set up component library structure
 2. Create base components with TypeScript interfaces
 3. Implement responsive design patterns
@@ -57,6 +65,7 @@ Implement the core React components for the CARE demo platform, including data v
 ## Component Specifications
 
 ### RadarChart Component
+
 ```typescript
 interface RadarChartProps {
   data: {
@@ -73,6 +82,7 @@ interface RadarChartProps {
 ```
 
 ### RegionSelector Component
+
 ```typescript
 interface RegionSelectorProps {
   onRegionSelect: (region: { state: string; county: string }) => void;
@@ -82,6 +92,7 @@ interface RegionSelectorProps {
 ```
 
 ## Definition of Done
+
 - [ ] All components render without errors
 - [ ] Components are responsive across device sizes
 - [ ] Accessibility standards are met (WCAG 2.1 AA)
@@ -90,5 +101,7 @@ interface RegionSelectorProps {
 - [ ] Storybook documentation is complete
 
 ## Priority: High
+
 ## Estimated Effort: 10-12 hours
+
 ## Labels: frontend, components, ui

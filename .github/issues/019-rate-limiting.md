@@ -1,9 +1,11 @@
 # Issue #019: API Rate Limiting and Security Middleware
 
 ## Description
+
 Implement comprehensive rate limiting and security middleware to protect the API from abuse, ensure fair usage, and maintain system stability.
 
 ## Acceptance Criteria
+
 - [ ] Implement rate limiting middleware for all API endpoints
 - [ ] Add specific rate limits for simulation endpoints
 - [ ] Create authentication rate limiting
@@ -13,6 +15,7 @@ Implement comprehensive rate limiting and security middleware to protect the API
 - [ ] Implement rate limit bypass for authenticated users
 
 ## Technical Requirements
+
 - **Rate Limiting**: express-rate-limit or similar
 - **Security Headers**: helmet.js for security headers
 - **CORS**: Cross-origin resource sharing configuration
@@ -23,6 +26,7 @@ Implement comprehensive rate limiting and security middleware to protect the API
 ## Implementation Details
 
 ### Rate Limiting Configuration
+
 ```typescript
 // rate-limit.config.ts
 import rateLimit from "express-rate-limit";
@@ -65,6 +69,7 @@ export const authRateLimit = rateLimit({
 ```
 
 ### Security Middleware
+
 ```typescript
 // security.middleware.ts
 import helmet from "helmet";
@@ -101,6 +106,7 @@ export const securityMiddleware = [
 ```
 
 ### Rate Limit Monitoring
+
 ```typescript
 // rate-limit.monitor.ts
 import { Injectable } from "@nestjs/common";
@@ -132,6 +138,7 @@ export class RateLimitMonitor {
 ```
 
 ### Custom Rate Limiting Logic
+
 ```typescript
 // custom-rate-limit.middleware.ts
 import { Injectable, NestMiddleware } from "@nestjs/common";
@@ -172,7 +179,7 @@ export class CustomRateLimitMiddleware implements NestMiddleware {
     ip: string,
     userId: string,
     endpoint: string,
-    limit: any
+    limit: any,
   ): Promise<boolean> {
     // Implementation of rate limiting logic
     // Check against Redis or in-memory store
@@ -184,16 +191,19 @@ export class CustomRateLimitMiddleware implements NestMiddleware {
 ## Rate Limiting Strategies
 
 ### Tiered Rate Limiting
+
 - **Anonymous Users**: Lower limits (10 requests/5min)
 - **Authenticated Users**: Higher limits (50 requests/5min)
 - **Premium Users**: Highest limits (100 requests/5min)
 
 ### Endpoint-Specific Limits
+
 - **Simulation Endpoints**: 10 requests/5min (resource intensive)
 - **Data Endpoints**: 100 requests/15min (lightweight)
 - **Auth Endpoints**: 5 requests/15min (security critical)
 
 ### Geographic Rate Limiting
+
 - **High-Risk Regions**: Stricter limits
 - **Trusted Regions**: Standard limits
 - **VPN Detection**: Additional restrictions
@@ -201,24 +211,28 @@ export class CustomRateLimitMiddleware implements NestMiddleware {
 ## Security Features
 
 ### Request Validation
+
 - **Input Sanitization**: Clean and validate all inputs
 - **Size Limits**: Prevent large payload attacks
 - **Content Type Validation**: Ensure proper content types
 - **SQL Injection Prevention**: Parameterized queries
 
 ### Authentication Security
+
 - **JWT Token Validation**: Secure token verification
 - **Session Management**: Proper session handling
 - **Password Security**: Strong password requirements
 - **Account Lockout**: Prevent brute force attacks
 
 ## Monitoring and Alerting
+
 - **Rate Limit Metrics**: Track hits, blocks, and patterns
 - **Anomaly Detection**: Identify unusual traffic patterns
 - **Alert System**: Notify administrators of issues
 - **Dashboard**: Real-time monitoring interface
 
 ## Definition of Done
+
 - [ ] Rate limiting middleware is implemented for all endpoints
 - [ ] Simulation endpoints have appropriate rate limits
 - [ ] Authentication rate limiting prevents brute force attacks
@@ -228,5 +242,7 @@ export class CustomRateLimitMiddleware implements NestMiddleware {
 - [ ] Rate limit monitoring and alerting is working
 
 ## Priority: High
+
 ## Estimated Effort: 6-8 hours
+
 ## Labels: security, middleware, rate-limiting

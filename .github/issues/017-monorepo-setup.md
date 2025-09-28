@@ -1,9 +1,11 @@
 # Issue #017: Monorepo Structure and Package Management
 
 ## Description
+
 Set up a proper monorepo structure using Nx, Turborepo, or Lerna to manage the frontend, backend, and shared packages in a single repository with proper build orchestration and dependency management.
 
 ## Acceptance Criteria
+
 - [ ] Set up monorepo tool (Nx, Turborepo, or Lerna)
 - [ ] Configure shared packages for types and utilities
 - [ ] Set up build orchestration and task running
@@ -13,6 +15,7 @@ Set up a proper monorepo structure using Nx, Turborepo, or Lerna to manage the f
 - [ ] Implement proper package versioning and publishing
 
 ## Technical Requirements
+
 - **Monorepo Tool**: Nx (recommended for NestJS/Next.js)
 - **Package Manager**: npm workspaces or Yarn workspaces
 - **Build System**: Integrated build orchestration
@@ -21,6 +24,7 @@ Set up a proper monorepo structure using Nx, Turborepo, or Lerna to manage the f
 - **CI/CD Integration**: Monorepo-aware build pipelines
 
 ## Monorepo Structure
+
 ```
 care-demo/
 ├── apps/
@@ -53,6 +57,7 @@ care-demo/
 ## Implementation Details
 
 ### Nx Configuration
+
 ```json
 // nx.json
 {
@@ -77,15 +82,13 @@ care-demo/
 ```
 
 ### Root Package.json
+
 ```json
 {
   "name": "care-demo",
   "version": "1.0.0",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "libs/*"
-  ],
+  "workspaces": ["apps/*", "libs/*"],
   "scripts": {
     "dev": "nx run-many --target=dev --all --parallel",
     "build": "nx run-many --target=build --all",
@@ -106,6 +109,7 @@ care-demo/
 ```
 
 ### Shared Types Package
+
 ```typescript
 // libs/shared-types/src/index.ts
 export interface User {
@@ -133,6 +137,7 @@ export type UserRole = "policy-maker" | "citizen" | "expert" | "admin";
 ```
 
 ### Shared Utils Package
+
 ```typescript
 // libs/shared-utils/src/index.ts
 export const calculateCAI = (concerns: ConcernScores): number => {
@@ -156,6 +161,7 @@ export const validateEmail = (email: string): boolean => {
 ## Build Orchestration
 
 ### Task Dependencies
+
 ```json
 // nx.json task dependencies
 {
@@ -176,6 +182,7 @@ export const validateEmail = (email: string): boolean => {
 ```
 
 ### Build Commands
+
 ```bash
 # Build all projects
 nx run-many --target=build --all
@@ -197,6 +204,7 @@ nx run-many --target=lint --all
 ## Code Sharing Strategy
 
 ### Frontend-Backend Type Sharing
+
 ```typescript
 // Frontend usage
 import { User, SimulationResult } from "@care-demo/shared-types";
@@ -206,6 +214,7 @@ import { User, SimulationResult } from "@care-demo/shared-types";
 ```
 
 ### Shared Component Library
+
 ```typescript
 // libs/ui-components/src/index.ts
 export { Button } from "./button/button";
@@ -217,6 +226,7 @@ export { LoadingSpinner } from "./loading-spinner/loading-spinner";
 ## Dependency Management
 
 ### Workspace Dependencies
+
 ```json
 // Root package.json
 {
@@ -230,6 +240,7 @@ export { LoadingSpinner } from "./loading-spinner/loading-spinner";
 ```
 
 ### Package-Specific Dependencies
+
 ```json
 // apps/frontend/package.json
 {
@@ -246,6 +257,7 @@ export { LoadingSpinner } from "./loading-spinner/loading-spinner";
 ## CI/CD Integration
 
 ### GitHub Actions for Monorepo
+
 ```yaml
 name: Monorepo CI
 on: [push, pull_request]
@@ -273,6 +285,7 @@ jobs:
 ## Development Workflow
 
 ### Local Development
+
 ```bash
 # Install all dependencies
 npm install
@@ -294,6 +307,7 @@ nx build backend
 ```
 
 ### Code Generation
+
 ```bash
 # Generate new library
 nx g @nrwl/workspace:lib shared-constants
@@ -306,6 +320,7 @@ nx g @nrwl/react:component button --project=ui-components
 ```
 
 ## Definition of Done
+
 - [ ] Monorepo structure is set up and working
 - [ ] Shared packages are properly configured
 - [ ] Build orchestration works correctly
@@ -315,5 +330,7 @@ nx g @nrwl/react:component button --project=ui-components
 - [ ] Documentation is updated with new structure
 
 ## Priority: High
+
 ## Estimated Effort: 6-8 hours
+
 ## Labels: monorepo, build-system, infrastructure

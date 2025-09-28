@@ -5,6 +5,7 @@ This guide will help you set up a GitHub project to manage the CARE demo platfor
 ## Prerequisites
 
 ### 1. GitHub CLI Installation
+
 Install the GitHub CLI tool:
 
 ```bash
@@ -19,6 +20,7 @@ winget install GitHub.cli
 ```
 
 ### 2. GitHub Authentication
+
 Authenticate with GitHub:
 
 ```bash
@@ -30,6 +32,7 @@ Follow the prompts to authenticate with your GitHub account.
 ## Automated Setup
 
 ### Quick Setup Script
+
 Run the automated setup script:
 
 ```bash
@@ -41,6 +44,7 @@ chmod +x .github/scripts/setup-project.sh
 ```
 
 This script will:
+
 - ✅ Check prerequisites
 - ✅ Create the GitHub project
 - ✅ Import all 21 issues from the issues directory
@@ -55,18 +59,21 @@ After running the automated script, you'll need to complete these steps manually
 Go to your project and add these custom fields:
 
 #### Priority Field
+
 - **Type**: Single select
 - **Options**:
   - 🔴 Critical
-  - 🟠 High  
+  - 🟠 High
   - 🟡 Medium
   - 🟢 Low
 
 #### Effort Field
+
 - **Type**: Number
 - **Description**: Estimated hours of work
 
 #### Milestone Field
+
 - **Type**: Single select
 - **Options**:
   - 0 - Foundation
@@ -76,6 +83,7 @@ Go to your project and add these custom fields:
   - 4 - Polish
 
 #### Status Field
+
 - **Type**: Single select
 - **Options**:
   - 📋 Backlog
@@ -85,6 +93,7 @@ Go to your project and add these custom fields:
   - ⏸️ Blocked
 
 #### Type Field
+
 - **Type**: Single select
 - **Options**:
   - 🏗️ Infrastructure
@@ -99,6 +108,7 @@ Go to your project and add these custom fields:
 Create these views in your project:
 
 #### Milestone Views
+
 1. **📋 Milestone Overview**
    - Layout: Board
    - Group by: Milestone
@@ -136,6 +146,7 @@ Create these views in your project:
    - Filter: `milestone:4 is:open`
 
 #### Specialized Views
+
 7. **🔥 High Priority Issues**
    - Layout: Table
    - Group by: None
@@ -159,6 +170,7 @@ Create these views in your project:
 Add these automation rules in your project settings:
 
 #### Auto-assign Milestone
+
 - **Trigger**: Issue opened
 - **Action**: Set field "Milestone"
 - **Value**: Based on issue number
@@ -169,6 +181,7 @@ Add these automation rules in your project settings:
   - Issues 17-21: "4 - Polish"
 
 #### Auto-assign Priority
+
 - **Trigger**: Issue opened
 - **Action**: Set field "Priority"
 - **Value**: Based on issue number
@@ -177,6 +190,7 @@ Add these automation rules in your project settings:
   - Low priority: All others
 
 #### Auto-assign Type
+
 - **Trigger**: Issue labeled
 - **Action**: Set field "Type"
 - **Value**: Based on labels
@@ -188,6 +202,7 @@ Add these automation rules in your project settings:
   - Security: `security` label
 
 #### Status Updates
+
 - **Trigger**: Issue assigned
 - **Action**: Set field "Status" to "🔄 In Progress"
 
@@ -200,6 +215,7 @@ Add these automation rules in your project settings:
 ## Project Workflow
 
 ### 1. Creating Issues
+
 Use the issue templates for different types of work:
 
 ```bash
@@ -214,6 +230,7 @@ gh issue create --template development_task.md
 ```
 
 ### 2. Development Workflow
+
 1. **Create Issue** using appropriate template
 2. **Assign to Milestone** (automated)
 3. **Assign to Team Member** (triggers "In Progress")
@@ -222,6 +239,7 @@ gh issue create --template development_task.md
 6. **Merge PR** (triggers "Done")
 
 ### 3. Tracking Progress
+
 - Use milestone views to track progress by phase
 - Monitor high priority issues in the dedicated view
 - Check assignee view for workload distribution
@@ -229,6 +247,7 @@ gh issue create --template development_task.md
 ## Project Management Best Practices
 
 ### Labeling Strategy
+
 Use consistent labels for filtering and automation:
 
 - **Priority**: `priority:critical`, `priority:high`, `priority:medium`, `priority:low`
@@ -236,6 +255,7 @@ Use consistent labels for filtering and automation:
 - **Status**: `status:backlog`, `status:in-progress`, `status:review`, `status:done`, `status:blocked`
 
 ### Status Management
+
 - **📋 Backlog**: New issues not yet started
 - **🔄 In Progress**: Currently being worked on
 - **👀 Review**: Ready for code review
@@ -243,6 +263,7 @@ Use consistent labels for filtering and automation:
 - **⏸️ Blocked**: Waiting on dependencies
 
 ### Reporting
+
 - Use project insights to track velocity
 - Monitor milestone completion rates
 - Identify bottlenecks and blockers
@@ -250,12 +271,15 @@ Use consistent labels for filtering and automation:
 ## Integration with Development Workflow
 
 ### GitHub Actions
+
 The project integrates with GitHub Actions for:
+
 - Automated testing on PR creation
 - Status updates on PR events
 - Deployment automation
 
 ### Notifications
+
 - Slack integration for project updates
 - Email notifications for milestone completions
 - Team notifications for high priority issues
@@ -265,21 +289,25 @@ The project integrates with GitHub Actions for:
 ### Common Issues
 
 #### Project Creation Fails
+
 - Ensure you have the necessary permissions
 - Check if you're authenticated with GitHub CLI
 - Verify your GitHub plan supports projects
 
 #### Issues Not Importing
+
 - Check that the issues directory exists
 - Verify issue files are properly formatted
 - Ensure you have write permissions to the repository
 
 #### Automation Not Working
+
 - Verify automation rules are properly configured
 - Check that field names match exactly
 - Ensure triggers are set up correctly
 
 ### Getting Help
+
 - Check the [project documentation](../README.md)
 - Review the [issue organization guide](../ISSUE_ORGANIZATION.md)
 - Contact the project maintainers

@@ -5,14 +5,17 @@ This directory contains configuration files and templates for managing the CARE 
 ## Project Structure
 
 ### 📋 Project Configuration
+
 - **`care-demo-project.yml`** - Main project configuration file defining views, fields, automation, and workflows
 
 ### 🎯 Issue Templates
+
 - **`bug_report.md`** - Template for reporting bugs
-- **`feature_request.md`** - Template for requesting new features  
+- **`feature_request.md`** - Template for requesting new features
 - **`development_task.md`** - Template for development tasks
 
 ### 🔄 Pull Request Template
+
 - **`PULL_REQUEST_TEMPLATE.md`** - Standard template for pull requests
 
 ## Project Views
@@ -20,6 +23,7 @@ This directory contains configuration files and templates for managing the CARE 
 The GitHub project includes the following views:
 
 ### 📊 Milestone Views
+
 - **Milestone Overview** - High-level view of all milestones
 - **Milestone 0: Foundation** - Project foundation and DevOps
 - **Milestone 1: MVP Core** - Core simulation functionality
@@ -28,6 +32,7 @@ The GitHub project includes the following views:
 - **Milestone 4: Polish** - Security, accessibility, and production
 
 ### 🔍 Specialized Views
+
 - **High Priority Issues** - All high priority issues across milestones
 - **Assignee View** - Issues organized by assignee
 - **By Labels** - Issues organized by labels
@@ -35,6 +40,7 @@ The GitHub project includes the following views:
 ## Project Fields
 
 ### 📝 Custom Fields
+
 - **Priority** - Critical, High, Medium, Low
 - **Effort** - Estimated hours of work
 - **Milestone** - 0-4 milestone phases
@@ -44,6 +50,7 @@ The GitHub project includes the following views:
 ## Automation Rules
 
 ### 🤖 Automated Workflows
+
 - **Auto-assign milestone** based on issue number
 - **Auto-assign priority** based on issue number
 - **Auto-assign type** based on labels
@@ -54,12 +61,14 @@ The GitHub project includes the following views:
 ### 🚀 Setting Up the Project
 
 1. **Create GitHub Project**
+
    ```bash
    # Use GitHub CLI to create project from configuration
    gh project create --title "CARE Demo Platform Development" --body "Community Acceptance Research and Evaluation Demo Platform" --public
    ```
 
 2. **Import Issues**
+
    ```bash
    # Import all issues from the issues directory
    for file in .github/issues/*.md; do
@@ -81,7 +90,7 @@ Use the issue templates for different types of work:
 # Bug report
 gh issue create --template bug_report.md
 
-# Feature request  
+# Feature request
 gh issue create --template feature_request.md
 
 # Development task
@@ -100,16 +109,19 @@ gh issue create --template development_task.md
 ## Project Management Best Practices
 
 ### 📊 Tracking Progress
+
 - Use the milestone views to track progress by phase
 - Monitor high priority issues in the dedicated view
 - Check assignee view for workload distribution
 
 ### 🏷️ Labeling Strategy
+
 - Use consistent labels for filtering and automation
 - Priority labels: `priority:critical`, `priority:high`, `priority:medium`, `priority:low`
 - Type labels: `infrastructure`, `backend`, `frontend`, `testing`, `documentation`, `security`
 
 ### 🔄 Status Management
+
 - **Backlog** - New issues not yet started
 - **In Progress** - Currently being worked on
 - **Review** - Ready for code review
@@ -117,6 +129,7 @@ gh issue create --template development_task.md
 - **Blocked** - Waiting on dependencies
 
 ### 📈 Reporting
+
 - Use project insights to track velocity
 - Monitor milestone completion rates
 - Identify bottlenecks and blockers
@@ -124,12 +137,15 @@ gh issue create --template development_task.md
 ## Integration with Development Workflow
 
 ### 🔗 GitHub Actions
+
 The project integrates with GitHub Actions for:
+
 - Automated testing on PR creation
 - Status updates on PR events
 - Deployment automation
 
 ### 📱 Notifications
+
 - Slack integration for project updates
 - Email notifications for milestone completions
 - Team notifications for high priority issues
@@ -137,11 +153,13 @@ The project integrates with GitHub Actions for:
 ## Maintenance
 
 ### 🔄 Regular Updates
+
 - Review and update project configuration monthly
 - Update issue templates as needed
 - Refine automation rules based on team feedback
 
 ### 📊 Metrics Tracking
+
 - Track issue completion rates
 - Monitor time estimates vs actual effort
 - Identify process improvements
@@ -149,6 +167,7 @@ The project integrates with GitHub Actions for:
 ## Support
 
 For questions about project management:
+
 - Check the [project documentation](../README.md)
 - Review the [issue organization guide](../ISSUE_ORGANIZATION.md)
 - Contact the project maintainers

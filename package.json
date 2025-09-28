@@ -45,11 +45,9 @@
   },
   "lint-staged": {
     "frontend/**/*.{ts,tsx,js,jsx}": [
-      "cd frontend && npm run lint:fix",
       "prettier --write"
     ],
     "backend/**/*.{ts,tsx,js,jsx}": [
-      "cd backend && npm run lint",
       "prettier --write"
     ],
     "shared/**/*.{ts,tsx,js,jsx}": [

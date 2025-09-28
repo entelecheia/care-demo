@@ -1,9 +1,11 @@
 # Issue #018: Asynchronous Simulation Processing with Job Queue
 
 ## Description
+
 Convert the simulation processing from synchronous to asynchronous using a job queue system to handle potentially long-running calculations and improve scalability.
 
 ## Acceptance Criteria
+
 - [ ] Implement job queue system (BullMQ or similar)
 - [ ] Convert simulation endpoint to return job ID immediately
 - [ ] Create worker process for simulation processing
@@ -13,6 +15,7 @@ Convert the simulation processing from synchronous to asynchronous using a job q
 - [ ] Implement job result storage and retrieval
 
 ## Technical Requirements
+
 - **Job Queue**: BullMQ with Redis backend
 - **Worker Process**: Separate worker for simulation processing
 - **Progress Tracking**: Real-time job progress updates
@@ -23,6 +26,7 @@ Convert the simulation processing from synchronous to asynchronous using a job q
 ## Implementation Details
 
 ### Job Queue Setup
+
 ```typescript
 // simulation.queue.ts
 import { Queue, Worker } from "bullmq";
@@ -59,17 +63,18 @@ export const simulationWorker = new Worker(
       host: process.env.REDIS_HOST,
       port: parseInt(process.env.REDIS_PORT),
     },
-  }
+  },
 );
 ```
 
 ### API Endpoints
+
 ```typescript
 // POST /api/v1/simulations
 @Post()
 async createSimulation(@Body() createSimulationDto: CreateSimulationDto) {
   const simulation = await this.simulationService.create(createSimulationDto);
-  
+
   const job = await simulationQueue.add("process-simulation", {
     simulationId: simulation.id,
     inputs: createSimulationDto.inputs,
@@ -105,6 +110,7 @@ async getSimulationStatus(@Param("runId") runId: string) {
 ```
 
 ### Frontend Integration
+
 ```typescript
 // Simulation polling hook
 export const useSimulationStatus = (runId: string) => {
@@ -139,6 +145,7 @@ export const useSimulationStatus = (runId: string) => {
 ```
 
 ## Job Queue Benefits
+
 - **Scalability**: Handle multiple simulations concurrently
 - **Reliability**: Job persistence and failure recovery
 - **Progress Tracking**: Real-time progress updates
@@ -146,12 +153,14 @@ export const useSimulationStatus = (runId: string) => {
 - **Monitoring**: Job queue metrics and monitoring
 
 ## Error Handling
+
 - **Job Retry**: Automatic retry for failed jobs
 - **Dead Letter Queue**: Handle permanently failed jobs
 - **Error Logging**: Comprehensive error logging and monitoring
 - **User Notification**: Notify users of job failures
 
 ## Definition of Done
+
 - [ ] Job queue system is implemented and working
 - [ ] Simulation endpoint returns job ID immediately
 - [ ] Worker process processes simulations correctly
@@ -161,5 +170,7 @@ export const useSimulationStatus = (runId: string) => {
 - [ ] Job results are stored and retrievable
 
 ## Priority: High
+
 ## Estimated Effort: 8-10 hours
+
 ## Labels: backend, async, job-queue
