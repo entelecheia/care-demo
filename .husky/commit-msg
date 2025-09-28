@@ -1,4 +1,15 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npx commitlint --edit $1
+# Add common Node.js paths to PATH
+export PATH="$PATH:/usr/local/bin:/opt/homebrew/bin:$HOME/.nvm/versions/node/*/bin"
+
+# Try to find npx in common locations
+if command -v npx >/dev/null 2>&1; then
+  npx commitlint --edit "$1"
+elif [ -f "$(which npm)" ]; then
+  npm exec commitlint --edit "$1"
+else
+  echo "Error: npx not found. Please ensure Node.js is installed and in your PATH."
+  exit 1
+fi
