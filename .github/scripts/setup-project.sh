@@ -180,18 +180,18 @@ main() {
     # Check authentication and create project if possible
     if check_gh_auth; then
         create_project
+        # Set up project configuration
+        setup_project_fields
+        setup_project_views
+        setup_automation
     else
         print_warning "Skipping project creation due to missing scopes"
         print_warning "You can create the project manually at: https://github.com/users/$(gh api user --jq .login)/projects/new"
+        print_warning "After creating the project, you can run this script again to set up fields and views"
     fi
     
     # Import issues
     import_issues
-    
-    # Set up project configuration
-    setup_project_fields
-    setup_project_views
-    setup_automation
     
     echo ""
     print_success "GitHub project setup completed!"
