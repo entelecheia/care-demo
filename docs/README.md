@@ -418,31 +418,35 @@ For instance, a GET request for a completed simulation result might return:
 
 ```json
 {
- "status": "COMPLETED",
- "policyId": "windfarm_tx_travis",
- "region": { "state": "Texas", "county": "Travis" },
- "before": {
- "CAI": 0.60,
- "concerns": {
- "environment": 40,
- "economic": 70,
- "social": 55,
- "procedural": 65,
- "safety": 60
- }
- },
- "after": {
- "CAI": 0.78,
- "concerns": {
- "environment": 70,
- "economic": 80,
- "social": 50,
- "procedural": 65,
- "safety": 60
- }
- },
- "optionsApplied": \[ "Install noise barriers", "20% discount on residents' electricity bills", "Hold additional public hearing" \],
- "generatedAt": "2025-09-28T02:30:00Z"
+  "status": "COMPLETED",
+  "policyId": "windfarm_tx_travis",
+  "region": { "state": "Texas", "county": "Travis" },
+  "before": {
+    "CAI": 0.6,
+    "concerns": {
+      "environment": 40,
+      "economic": 70,
+      "social": 55,
+      "procedural": 65,
+      "safety": 60
+    }
+  },
+  "after": {
+    "CAI": 0.78,
+    "concerns": {
+      "environment": 70,
+      "economic": 80,
+      "social": 50,
+      "procedural": 65,
+      "safety": 60
+    }
+  },
+  "optionsApplied": [
+    "Install noise barriers",
+    "20% discount on residents' electricity bills",
+    "Hold additional public hearing"
+  ],
+  "generatedAt": "2025-09-28T02:30:00Z"
 }
 ```
 
